@@ -1,4 +1,4 @@
-package techproed.day08_Assertion;
+package techproed.day08_BeforeClassAfterClass_Assertion;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;

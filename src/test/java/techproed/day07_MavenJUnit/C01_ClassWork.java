@@ -1,4 +1,4 @@
-package techproed.day06_Maven;
+package techproed.day07_MavenJUnit;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
@@ -9,14 +9,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
 
-public class C02_ClassWork {
+public class C01_ClassWork {
     public static void main(String[] args) throws InterruptedException {
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-
-
         //1.http://zero.webappsecurity.com sayfasina gidin
         driver.get("http://zero.webappsecurity.com");
 
@@ -27,45 +25,32 @@ public class C02_ClassWork {
         //4.Password alanine "password" yazdirin
         //5.Sign in buttonuna tiklayin
         WebElement login = driver.findElement(By.cssSelector("input#user_login"));
-        Thread.sleep(2000);
-        login.sendKeys("username", Keys.TAB,"password", Keys.ENTER);
+        login.sendKeys("username", Keys.TAB,"password",Keys.ENTER);
         Thread.sleep(2000);
         driver.navigate().back();
 
-        //6.Online Baking altındaki Pay Bills sayfasina gidin
+        //6.Online Banking altında Pay Bills sayfasina gidin
         driver.findElement(By.xpath("(//*[text()=.])[11]")).click();
-        driver.findElement(By.xpath("((//h4)[4]//span")).click();
-            //driver.findElement(By.id("pay_bills_link")).click();
         //-->(//*[text()=.])[11] Bu şekilde text ile aldığımız bir xpath'de text değişse bile biz o webelementi handle edebiliriz.
+        driver.findElement(By.xpath("(//h4)[4]//span")).click();
 
-
-
-        //7.amount kismina yatirmak istediginiz herhangi bir miktari yazin0
-        driver.findElement(By.cssSelector("#sp_amount")).sendKeys("1000",Keys.TAB,"2020-09-10",Keys.TAB,Keys.TAB,Keys.ENTER);
-
-            //Keys.TAB ile yaptık o yüzden yoruma aldım
+        //7.amount kismina yatirmak istediginiz herhangi bir miktari yazin
         //8.tarih kismina "2020-09-10" yazdirin
-            //driver.findElement(By.id("sp_date")).sendKeys("2020-09-10");
-
         //9.Pay buttonuna tiklayin
-            //driver.findElement(By.id("pay_saved_payees")).click();
+        driver.findElement(By.cssSelector("#sp_amount")).sendKeys("500",Keys.TAB,"2020-09-10",Keys.TAB,Keys.TAB,Keys.ENTER);
 
         //10."The payment was successfully submitted." mesajinin ciktigini control edin
-        WebElement actualText= driver.findElement(By.xpath("(//span)[1]"));
-            //WebElement actualText= driver.findElement(By.id("alert_content"));
-        System.out.println(actualText.getText());
-        String expextedText = "The payment was successfully submitted.";
-        if (actualText.getText().equals(expextedText)){
+        WebElement sonucYazisi = driver.findElement(By.xpath("(//span)[1]"));
+        System.out.println(sonucYazisi.getText());
+        if (sonucYazisi.getText().equals("The payment was successfully submitted.")){
+            System.out.println("Test PASSED");
+        }else System.out.println("Test FAILED");
+        //Webelementin görünür olup olmadığını doğrulamak için yaptık
+        if (sonucYazisi.isDisplayed()){
             System.out.println("Test PASSED");
         }else System.out.println("Test FAILED");
 
-        if (actualText.isDisplayed()){
-            System.out.println("Test PASSED");
-        }else System.out.println("Test FAILED");
-
-
-        Thread.sleep(2000);
+        //sayfayı kapatınız
         driver.close();
-
     }
 }
